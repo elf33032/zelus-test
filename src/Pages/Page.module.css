@@ -1,0 +1,36 @@
+.buttons{
+    margin-top: 100px;
+    display: flex;
+    justify-content: space-around;
+}
+
+.item {
+    display:flex;
+    margin-bottom: 10px;
+}
+
+.label {
+    flex:1;
+    order:1;
+    text-align: right;
+}
+.input{
+    flex:3;
+    display:flex;
+    order: 2;
+}
+
+.comment{
+    text-align: center;
+    margin: 1px;
+}
+
+.flex3{
+    flex:3;
+}
+.flex2{
+    flex:2;
+}
+.flex1{
+    flex:1;
+}

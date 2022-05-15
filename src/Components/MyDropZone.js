@@ -1,5 +1,6 @@
-import React, {useMemo} from 'react';
+import React, {useMemo, useCallback} from 'react';
 import {useDropzone} from 'react-dropzone';
+import classes from "./MyDropZone.module.css"
 
 const baseStyle = {
     flex: 1,
@@ -8,7 +9,7 @@ const baseStyle = {
     alignItems: 'center',
     padding: '20px',
     borderWidth: 2,
-    borderRadius: 2,
+    borderRadius: 15,
     borderColor: '#eeeeee',
     borderStyle: 'dashed',
     backgroundColor: '#fafafa',
@@ -29,7 +30,11 @@ const rejectStyle = {
     borderColor: '#FF4500'
 };
 
-function MyDropzone(props) {
+function MyDropZone(props) {
+    const onDrop = useCallback(accepted => {
+        // Do something with the files
+        props.updateFile(accepted[0]);
+    }, [])
     const {
         acceptedFiles,
         fileRejections,
@@ -39,8 +44,9 @@ function MyDropzone(props) {
         isDragAccept,
         isDragReject
     } = useDropzone({
+        onDrop,
         maxFiles: 1,
-        accept: {'image/*': ['png','jpeg','jpg','pdf']}
+        accept: {'image/*': []}
     });
 
     const style = useMemo(() => ({
@@ -69,29 +75,20 @@ function MyDropzone(props) {
             </ul>
         </li>
     ));
-
     return (
-        <div className="container">
+        <div className={classes.container}>
             <div {...getRootProps({style})}>
-                <input {...getInputProps()} />
-                <p>Drag & Drop Files to Upload, or Click to Select Files</p>
+                <input {...getInputProps()}/>
+                <p className={classes.mainText}>Drag & Drop Files to Upload, or Click to Select Files</p>
                 <p>Support: .png .jpg .jpeg .pdf</p>
                 <h4>Accepted files</h4>
                 <ul>{acceptedFileItems}</ul>
                 <h4>Rejected files</h4>
                 <ul>{fileRejectionItems}</ul>
             </div>
-            <Dropzone>
-                {({getRootProps, getInputProps}) => (
-                    <div {...getRootProps()}>
-                        <input {...getInputProps()} />
-                        <p>Drag 'n' drop some files here, or click to select files</p>
-                    </div>
-                )}
-            </Dropzone>
         </div>
 
     );
 }
 
-export default MyDropzone;
+export default MyDropZone;
